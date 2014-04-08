@@ -7,4 +7,8 @@ module Notification
       notification.send
     end
   end
+
+  def notify(state, opts, details = nil)
+    opts.keys.each { |type| send(type, state, opts[type], details) if opts[type]['enabled'] == true }
+  end
 end

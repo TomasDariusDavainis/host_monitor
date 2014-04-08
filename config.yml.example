@@ -3,6 +3,7 @@ host:
   timeout: 40
 notification:
   email:
+    enabled: true
     to: to@address.com
     from: from@address.com
     from_alias: Host monitor mailer
@@ -17,6 +18,7 @@ notification:
       subject: 'host is up!'
       body: 'relax'
   sms:
+    enabled: true
     account_sid: twilio_account_sid
     auth_token: twilio_account_token
     to_phone: '+19822345678'

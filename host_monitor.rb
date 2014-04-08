@@ -12,17 +12,12 @@ class HostMonitor
   def start
     host.ping
     if host.code.eql?("200") && host.message.eql?("Ok")
-      if @tries > 0
-        email(:up, $config['notification']['email'])
-      end
+      notify(:up, $config['notification']) if @tries > 0
       exit
     else
-      if [0, 10, 100].include? @tries
-        sms(:down, $config['notification']['sms'], host.details)
-        email(:down, $config['notification']['email'], host.details)
-      end
+      notify(:down, $config['notification'], host.details) if [0, 10, 20, 30].include? @tries
       @tries += 1
-      sleep 10
+      sleep $config['host']['timeout'].to_i
       start
     end
   end
