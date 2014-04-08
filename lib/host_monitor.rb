@@ -1,6 +1,4 @@
 class HostMonitor
-
-  require_relative 'notification'
   include Notification
   attr_reader :host
 
@@ -21,5 +19,4 @@ class HostMonitor
       start
     end
   end
-
 end

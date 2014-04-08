@@ -1,8 +1,9 @@
 #!/usr/bin/env ruby
 
 require 'yaml'
-require_relative 'host'
-require_relative 'host_monitor'
+['lib/notification', 'lib/email', 'lib/sms', 'lib/host', 'lib/host_monitor'].each do |dep|
+  require File.expand_path(dep)
+end
 
 if File.exists?('config.yml')
   $config = File.open('config.yml') { |config| YAML.load(config) }
