@@ -2,16 +2,10 @@
 
 require 'yaml'
 require_relative 'host'
-require_relative 'email'
+require_relative 'host_monitor'
 
 $config = File.open('config.yml') { |config| YAML.load(config) }
 
 host = Host.new($config['host']['url'], $config['host']['timeout'])
-code, message = host.ping
-
-if code.eql?("200") && message.eql?("Ok")
-  exit
-else
-  email = Email.new($config['mail'])
-  email.send
-end
+monitor = HostMonitor.new(host)
+monitor.start

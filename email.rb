@@ -3,15 +3,19 @@ class Email
 
   attr_reader :opts, :msg
 
-  def initialize(opts)
+  def initialize(opts, state, details = nil)
     @opts = opts
-    @msg = %{
-    From: #{opts['from_alias']} <#{opts['from']}>
-    To: <#{opts['to']}>
-    Subject: #{opts['subject']}
-
-    #{opts['body']}}
+    @msg = <<EOF
+From: #{opts['from_alias']} <#{opts['from']}>
+To: <#{opts['to']}>
+Subject: #{opts[state.to_s]['subject']}
+#{opts[state.to_s]['body']}
+EOF
+    if details
+      @msg << details
+    end
   end
+
 
   def send
     Net::SMTP.new(opts['server'], opts['port']).tap do |smtp|

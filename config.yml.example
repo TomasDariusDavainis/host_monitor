@@ -1,18 +1,25 @@
 host:
   url: http://example.com
   timeout: 40
-
-mail:
-  to: to@address.com
-  from: from@address.com
-  from_alias: Host monitor mailer
-  server: smtp.gmail.com
-  port: 587
-  login: email.login
-  password: email.password
-  down:
-    subject: 'host is down!'
-    body: 'alarm'
-  up:
-    subject: 'host is up!'
-    body: 'relax'
+notification:
+  email:
+    to: to@address.com
+    from: from@address.com
+    from_alias: Host monitor mailer
+    server: smtp.gmail.com
+    port: 587
+    login: email.login
+    password: email.password
+    down:
+      subject: 'host is down!'
+      body: 'alarm'
+    up:
+      subject: 'host is up!'
+      body: 'relax'
+  sms:
+    account_sid: twilio_account_sid
+    auth_token: twilio_account_token
+    to_phone: '+19822345678'
+    from_phone: '+19922345678'
+    down: 'alarm! host is down'
+    up: 'ok, host is up again'

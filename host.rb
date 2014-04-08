@@ -11,6 +11,14 @@ class Host
   def ping
     url = URI.parse(host)
     response = Net::HTTP.get_response(url)
-    return response.code, response.message
+    self.code, self.message = response.code, response.message
+  end
+
+  def details
+<<DET
+Host: #{host}
+Status code: #{code}
+Message: #{message}
+DET
   end
 end
