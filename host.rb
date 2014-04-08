@@ -12,6 +12,8 @@ class Host
     url = URI.parse(host)
     response = Net::HTTP.get_response(url)
     self.code, self.message = response.code, response.message
+  rescue SocketError, Timeout::Error
+    self.code, self.message = '404', 'can\'t resolve hostname'
   end
 
   def details
