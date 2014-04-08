@@ -18,5 +18,7 @@ class HostMonitor
       notify(:up, $config['notification']) if @tries > 0
       exit
     end
+  ensure
+    File.delete('host_monitor.pid')
   end
 end
