@@ -4,8 +4,12 @@ require 'yaml'
 require_relative 'host'
 require_relative 'host_monitor'
 
-$config = File.open('config.yml') { |config| YAML.load(config) }
+if File.exists?('config.yml')
+  $config = File.open('config.yml') { |config| YAML.load(config) }
 
-host = Host.new($config['host']['url'], $config['host']['timeout'])
-monitor = HostMonitor.new(host)
-monitor.start
+  host = Host.new($config['host']['url'], $config['host']['timeout'])
+  monitor = HostMonitor.new(host)
+  monitor.start
+else
+  puts 'Please, configure application: add some settings to config.yml'
+end
