@@ -1,0 +1,18 @@
+host:
+  url: http://example.com
+  timeout: 40
+
+mail:
+  to: to@address.com
+  from: from@address.com
+  from_alias: Host monitor mailer
+  server: smtp.gmail.com
+  port: 587
+  login: email.login
+  password: email.password
+  down:
+    subject: 'host is down!'
+    body: 'alarm'
+  up:
+    subject: 'host is up!'
+    body: 'relax'

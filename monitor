@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+require 'yaml'
+require_relative 'host'
+require_relative 'email'
+
+$config = File.open('config.yml') { |config| YAML.load(config) }
+
+host = Host.new($config['host']['url'], $config['host']['timeout'])
+code, message = host.ping
+
+if code.eql?("200") && message.eql?("Ok")
+  exit
+else
+  email = Email.new($config['mail'])
+  email.send
+end
