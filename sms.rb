@@ -3,9 +3,9 @@ class Sms
   require 'twilio-ruby'
 
   def initialize(opts, state, details = nil)
-    @state = state
     @opts = opts
-    @msg = details
+    @msg = opts[state.to_s]
+    @msg << "\n" << details if details
   end
 
   def send
