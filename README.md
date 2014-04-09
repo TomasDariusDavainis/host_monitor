@@ -3,27 +3,27 @@ host_monitor
 
 ### Installation:
 
-1. clone it
+Clone it
 
 ```
 git@github.com:m0n9oose/host_monitor.git && cd host_monitor
 ```
 
-2. install dependencies
+Install dependencies
 
 ```
 bundle install
 ```
 
-3. copy config file and edit it
+Copy config file and edit it
 
 ```
-cp config.yml.example confid.yml && vim config.yml
+cp config.yml.example config.yml && vim config.yml
 ```
 
 ### Usage
 
-run script with cron or manually
+Run script with cron or manually
 
 ### Contributing
 
