@@ -1,9 +1,9 @@
-host_monitor
+Host monitor
 ============
 
-### Installation:
+### Installation
 
-Clone it
+Clone
 
 ```
 git@github.com:m0n9oose/host_monitor.git && cd host_monitor
@@ -18,7 +18,8 @@ bundle install
 Copy config file and edit it
 
 ```
-cp config.yml.example config.yml && vim config.yml
+cp config/config.yml.example config/config.yml
+vim config/config.yml
 ```
 
 ### Usage

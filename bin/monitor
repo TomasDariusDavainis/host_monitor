@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+require_relative '../config/boot'
+
+already_running_msg = 'A server is already running. Check host_monitor.pid'
+config_missing_msg = 'Please, configure application: add some settings to config.yml'
+
+abort(already_running_msg) if File.exist?('host_monitor.pid')
+abort(config_missing_msg) unless File.exist?('config/config.yml')
+
+File.open('host_monitor.pid', 'w') do |pidfile|
+  pidfile.write(Process.pid)
+  HostMonitor.new.start
+end
