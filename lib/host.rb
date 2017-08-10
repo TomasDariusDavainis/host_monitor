@@ -1,34 +1,45 @@
 class Host
-  attr_reader :host, :timeout, :url
-  attr_accessor :message, :code
+  attr_reader :url, :response
+  attr_writer :message, :code
 
-  def initialize(host, timeout)
-    @host = host
-    @timeout = timeout
+  def initialize(host)
     @url = URI.parse(host)
   end
 
   def details
     <<~DET
-      Host: #{ host }
+      Host: #{ url }
       Status code: #{ code }
       Message: #{ message }
     DET
   end
 
   def down?
-    ping
+    ping!
     (400..599).include?(code)
   end
 
   private
 
-  def ping
-    response = Net::HTTP.get_response(url)
+  def code
+    return @code if @code
+    ping!
     self.code = response.code.to_i
+  end
+
+  def message
+    return @message if @message
+    ping!
     self.message = response.message
+  end
+
+  def ping!
+    @response = perform_request
+  end
+
+  def perform_request
+    Net::HTTP.get_response(url)
   rescue SocketError, Timeout::Error
-    self.code = 404
-    self.message = 'Network error'
+    MockResponse.new(404, 'Network error')
   end
 end

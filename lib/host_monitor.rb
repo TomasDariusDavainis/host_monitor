@@ -5,13 +5,13 @@ class HostMonitor
 
   def initialize
     @failed_tries = 0
-    @host = Host.new(config['host']['url'], config['host']['timeout'])
+    @host = Host.new(config['host']['url'])
   end
 
   def start
     loop do
       check_availability
-      sleep config['host']['timeout'].to_i
+      sleep config['host']['rate_seconds'].to_i
     end
   end
 
