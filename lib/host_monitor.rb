@@ -1,6 +1,5 @@
 class HostMonitor
   NOTIFY_FAILED_TRIES = [3, 10, 50, 100, 500].freeze
-  include Notification
   attr_reader :host
   attr_accessor :failed_tries
 
@@ -11,13 +10,7 @@ class HostMonitor
 
   def start
     loop do
-      if host.down?
-        notify(:down, config['notification'], host.details) if NOTIFY_FAILED_TRIES.include?(failed_tries)
-        self.failed_tries += 1
-      elsif failed_tries.positive?
-        notify(:up, config['notification'])
-        self.failed_tries = 0
-      end
+      check_availability
       sleep config['host']['timeout'].to_i
     end
   end
@@ -30,5 +23,19 @@ class HostMonitor
 
   def config_path
     File.expand_path('../config/config.yml', __dir__)
+  end
+
+  def notification
+    Notification.new(config['notification'], host.details)
+  end
+
+  def check_availability
+    if host.down?
+      notification.notify(:down) if NOTIFY_FAILED_TRIES.include?(failed_tries)
+      self.failed_tries += 1
+    elsif failed_tries.positive?
+      notification.notify(:up)
+      self.failed_tries = 0
+    end
   end
 end

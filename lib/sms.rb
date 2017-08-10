@@ -1,6 +1,5 @@
 class Sms
-  require 'rubygems'
-  require 'twilio-ruby'
+  attr_reader :opts, :msg
 
   def initialize(opts, state, details = nil)
     @opts = opts
@@ -8,12 +7,21 @@ class Sms
     @msg << "\n" << details if details
   end
 
-  def send
-    @client = Twilio::REST::Client.new @opts['account_sid'], @opts['auth_token']
-    params = Hash[:from,      @opts['from_phone'],
-                  :to,        @opts['to_phone'], # we can send sms to verified numbers only, because of trial twilio account
-                  :body,      @msg]
+  def delivery
+    client.account.messages.create(params)
+  end
 
-    @client.account.messages.create params
+  private
+
+  def client
+    Twilio::REST::Client.new(opts['account_sid'], opts['auth_token'])
+  end
+
+  def params
+    {
+      from: opts['from_phone'],
+      to: opts['to_phone'],
+      body: msg
+    }
   end
 end

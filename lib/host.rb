@@ -29,6 +29,6 @@ class Host
     self.message = response.message
   rescue SocketError, Timeout::Error
     self.code = 404
-    self.message = 'can\'t resolve hostname'
+    self.message = 'Network error'
   end
 end
