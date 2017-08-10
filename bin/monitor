@@ -9,7 +9,11 @@ config_missing_msg = 'Please, configure application: add some settings to config
 abort(already_running_msg) if File.exist?('host_monitor.pid')
 abort(config_missing_msg) unless File.exist?('config/config.yml')
 
-File.open('host_monitor.pid', 'w') do |pidfile|
-  pidfile.write(Process.pid)
-  HostMonitor.new.start
+begin
+  File.open('host_monitor.pid', 'w') do |pidfile|
+    pidfile.write(Process.pid)
+    HostMonitor.new.start
+  end
+ensure
+  File.delete('host_monitor.pid')
 end
